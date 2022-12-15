@@ -1,0 +1,89 @@
+Information a savefile has to contain and instructions on where to obtain it.
+
+data taken from:
+masses and sizes: https://www.theplanetstoday.com/planets_information_basic_facts.html
+
+locations and velocities: astropy
+
+        planetal locations and velocities defined on 2020-01-01 00:00 from astropy
+        example:
+        t = Time('2020-01-01 00:00')
+        astropy.coordinates.get_body_barycentric_posvel('mercury', t, ephemeris='de432s')[0]
+        <CartesianRepresentation (x, y, z) in km
+            (-10040366.35598123, -60337800.46906529, -31349011.72097562)>
+
+        planetal velocities eg:
+        t = Time('2020-01-01 00:00')
+        astropy.coordinates.get_body_barycentric_posvel('sun', t, ephemeris='de432s')[1]
+        <CartesianRepresentation (x, y, z) in km / d
+            (-1249.47638208, -286.99461832, -86.86635069)>
+
+
+#INT version_number file_type
+
+========================
+    INT 4.0 Savefile
+========================
+
+
+#WORLD:
+    Date of the save and version of the program. "Saved : 2020-01-01 0000"
+    Amount of stars in the system "Stars : 1"
+    Amount of planets in the system "Planets : 0"
+    Planet mass factor (only used in conversion, written here for clarity)
+
+
+========================
+    Saved : 2020-01-01 0000
+    Stars : 1
+    Planets : 0
+    Planet mass factor = *10^24kg
+========================
+
+#BDY
+    Information about which planets are to be added into the sim.
+    Has data about all of their sizes and locations and masses.
+    Is used to create the situation in the beginning, before running the program.
+    Starts with PLN and number of body, and ends with PLEND
+    The info given for each planet should be in format (eg. below is the sun):
+
+
+========================
+    PLN0
+    N : SUN
+    R : 695700
+    M : 1988400.0
+    G : 274.68
+    C : yellow
+    L : 0,0,0
+    V : -1249.47638208, -286.99461832, -86.86635069
+    PLEND
+========================
+
+    Where:
+    N is the name of the body,
+    R is the radius of the body [km],
+    M is the mass of the body later scaled with the mass conversion factor[kg],
+    G is the gravitational constant for the planet [m/s^2],
+    C is the color of the solar body,
+    L is the location of the body given in [km] and in the format x,y,z and
+    V is the velocity of the body given in [km/day] and in the format x,y,z
+
+#BDYEND:
+    signals to the filereader that the information about the bodies in the world is over
+
+
+#END:
+    Signals to the filereader that the savefile is at the end.
+
+
+NOTICE:
+    When creating your own scenario, it is adviced to follow an example savefile eg. INIT_8 or INIT_2.
+    Following an example precisely will make sure that your scenario can actually be loaded into the simulation.
+    Pay attention to the units in the INIT file.
+
+
+Future development:
+    - possibility to save data of satellites under SAT0 header in the #BDY section?
+    - relatively simple implementation into the loader
+    - savefileIO class to save a scenario into a textfile of this format?

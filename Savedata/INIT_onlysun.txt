@@ -1,0 +1,25 @@
+INT 4.0 Savefile
+
+#WORLD
+
+Saved : 2020-01-01 0000
+Stars : 1
+Planets : 0
+Planet mass factor = *10^24kg
+
+
+#BDY
+
+PLN0
+N : SUN
+R : 695700
+M : 1988400.0
+G : 274.68
+C : yellow
+L : 0,0,0
+V : -1249.47638208, -286.99461832, -86.86635069
+PLEND
+
+#BDYEND
+
+#END000
